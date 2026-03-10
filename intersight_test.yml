@@ -3,28 +3,11 @@
   hosts: localhost
   gather_facts: false
   tasks:
-    - name: List all installed packages
-      command: pip list
-      register: pip_list
-      changed_when: false
-    
-    - name: Show results
-      debug:
-        var: pip_list.stdout_lines
-
-    - name: List Installed Collections
-      command: ansible-galaxy collection list cisco.intersight
-      register: collection_version
-      changed_when: false
-
-    - name: Display Environment Variable Status
-      debug:
-        msg: 
-          - "API Key ID: {{ lookup('env', 'INTERSIGHT_API_KEY_ID') | default('NOT SET', true) }}"
 
     - name: Fetch Default Organization MOID
       cisco.intersight.intersight_info:
-        # These will automatically pick up env vars if not explicitly defined
+        api_key_id: "{{ api_key_id }}"
+        api_private_key: "{{ api_private_key }}"
         validate_certs: true
       register: org_info
 
