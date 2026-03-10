@@ -1,1 +1,2 @@
 intersight
+cryptography>=41.0.0
