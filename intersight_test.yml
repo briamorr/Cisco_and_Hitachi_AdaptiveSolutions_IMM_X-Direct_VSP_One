@@ -1,12 +1,32 @@
-- name: Verify Extra Variable Injection
+---
+- name: Debug Intersight Environment
   hosts: localhost
   gather_facts: false
   tasks:
-    - name: Debug variable status
-      debug:
-        msg: "The variable api_private_key is {{ 'DEFINED' if api_private_key is defined else 'UNDEFINED' }}"
+    - name: Get Cryptography version
+      shell: python3 -c "import cryptography; print(cryptography.__version__)"
+      register: crypto_version
+      changed_when: false
 
-    - name: Check variable length (confirming it is not empty)
+    - name: List Installed Collections
+      command: ansible-galaxy collection list cisco.intersight
+      register: collection_version
+      changed_when: false
+
+    - name: Display Environment Variable Status
       debug:
-        msg: "The length of the key is {{ api_private_key | length }} characters."
-      when: api_private_key is defined
+        msg: 
+          - "API Key ID: {{ lookup('env', 'INTERSIGHT_API_KEY_ID') | default('NOT SET', true) }}"
+          - "Cryptography Version: {{ crypto_version.stdout }}"
+          - "Collection Info: {{ collection_version.stdout_lines[2] if collection_version.stdout_lines | length > 2 else 'Version not detected' }}"
+
+    - name: Fetch Default Organization MOID
+      cisco.intersight.intersight_info:
+        # These will automatically pick up env vars if not explicitly defined
+        validate_certs: true
+      register: org_info
+
+    - name: Print Organization MOID
+      debug:
+        msg: "The Moid for the 'default' organization is {{ (org_info.intersight_organizations | selectattr('Name', 'equalto', 'default') | first).Moid }}"
+      when: org_info.intersight_organizations is defined
