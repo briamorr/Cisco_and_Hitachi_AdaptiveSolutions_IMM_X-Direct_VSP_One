@@ -1,6 +1,12 @@
-- name: Debug Intersight Credential
+- name: Verify Extra Variable Injection
   hosts: localhost
+  gather_facts: false
   tasks:
-    - name: Print the key variable
+    - name: Debug variable status
       debug:
-        msg: "{{ lookup('env', 'api_private_key') }}"
+        msg: "The variable api_private_key is {{ 'DEFINED' if api_private_key is defined else 'UNDEFINED' }}"
+
+    - name: Check variable length (confirming it is not empty)
+      debug:
+        msg: "The length of the key is {{ api_private_key | length }} characters."
+      when: api_private_key is defined
