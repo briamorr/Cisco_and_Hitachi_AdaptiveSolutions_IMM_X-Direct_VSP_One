@@ -3,4 +3,4 @@
   tasks:
     - name: Print the key variable
       debug:
-        msg: "{{ lookup('env', 'INTERSIGHT_API_PRIVATE_KEY') }}"
+        msg: "{{ lookup('env', 'api_private_key') }}"
