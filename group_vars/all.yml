@@ -11,10 +11,10 @@
 # These variables will have a name that starts with 'vault_'
 
 # Enter Intersight API Key ID and the location of the SecretKey file 
-intersight_api_key_id: "{{ vault_intersight_api_key_id }}"
-intersight_api_private_key: "{{ vault_intersight_api_private_key }}"
-api_key_id: "{{ vault_intersight_api_key_id }}"
-api_private_key: "{{ vault_intersight_api_private_key }}"
+intersight_api_key_id: "{{ api_key_id }}"
+intersight_api_private_key: "{{ api_private_key }}"
+api_key_id: "{{ api_key_id }}"
+api_private_key: "{{ api_private_key }}"
 # intersight_validate_certs: "false"
 # 
 # Intersight Resource Group Name. Please make sure it already exists.
