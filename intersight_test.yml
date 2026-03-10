@@ -3,10 +3,14 @@
   hosts: localhost
   gather_facts: false
   tasks:
-    - name: Get Cryptography version
-      shell: python3 -c "import cryptography; print(cryptography.__version__)"
-      register: crypto_version
+    - name: List all installed packages
+      command: pip list
+      register: pip_list
       changed_when: false
+    
+    - name: Show results
+      debug:
+        var: pip_list.stdout_lines
 
     - name: List Installed Collections
       command: ansible-galaxy collection list cisco.intersight
