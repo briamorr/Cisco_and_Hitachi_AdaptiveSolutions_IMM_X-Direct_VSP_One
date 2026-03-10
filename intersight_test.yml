@@ -21,8 +21,6 @@
       debug:
         msg: 
           - "API Key ID: {{ lookup('env', 'INTERSIGHT_API_KEY_ID') | default('NOT SET', true) }}"
-          - "Cryptography Version: {{ crypto_version.stdout }}"
-          - "Collection Info: {{ collection_version.stdout_lines[2] if collection_version.stdout_lines | length > 2 else 'Version not detected' }}"
 
     - name: Fetch Default Organization MOID
       cisco.intersight.intersight_info:
